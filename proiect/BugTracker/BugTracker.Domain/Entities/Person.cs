@@ -16,6 +16,7 @@ namespace BugTracker.Domain.Entities
         public int PersonId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string UserName { get; set; }
         public string Email { get; set; }
 
         public virtual ICollection<Project> Projects { get; set; }
