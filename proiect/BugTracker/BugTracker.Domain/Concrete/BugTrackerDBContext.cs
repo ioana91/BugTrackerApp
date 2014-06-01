@@ -2,31 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Data.Entity;
-using BugTracker.Domain.Entities;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using BugTracker.Domain.Entities;
 
 namespace BugTracker.Domain.Concrete
 {
-    public class BugTrackerDBContext : DbContext
+    public class BugTrackerDBContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<Comment> Comments { get; set; }
-        public DbSet<Issue> Issues { get; set; }
-        public DbSet<Milestone> Milestones { get; set; }
-        public DbSet<Person> Persons { get; set; }
-        public DbSet<Project> Projects { get; set; }
-        public DbSet<Tag> Tags { get; set; }
-
         public BugTrackerDBContext() : base("BugTrackerDBContext")
         {
         }
 
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Issue> Issues { get; set; }
+        public DbSet<Milestone> Milestones { get; set; }
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
 
-            modelBuilder.Entity<Person>().
+            modelBuilder.Entity<ApplicationUser>().
                 HasMany(p => p.Comments).
                 WithRequired(c => c.Author).
                 HasForeignKey(c => c.AuthorId).
@@ -39,14 +41,14 @@ namespace BugTracker.Domain.Concrete
                 WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Issue>().
-               HasMany(i => i.PersonsInvolved).
+               HasMany(i => i.UsersInvolved).
                WithMany().
                Map(
                    m =>
                    {
                        m.MapLeftKey("IssueId");
-                       m.MapRightKey("PersonId");
-                       m.ToTable("IssuePersons");
+                       m.MapRightKey("UserId");
+                       m.ToTable("IssueUsers");
                    });
 
             modelBuilder.Entity<Tag>().
@@ -61,14 +63,14 @@ namespace BugTracker.Domain.Concrete
                     });
 
             modelBuilder.Entity<Project>().
-                HasMany(p => p.Persons).
+                HasMany(p => p.Users).
                 WithMany(p => p.Projects).
                 Map(
                     m =>
                     {
                         m.MapLeftKey("ProjectId");
-                        m.MapRightKey("PersonId");
-                        m.ToTable("ProjectPersons");
+                        m.MapRightKey("UserId");
+                        m.ToTable("ProjectUsers");
                     });
         }
     }

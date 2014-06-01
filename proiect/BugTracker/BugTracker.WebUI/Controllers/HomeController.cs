@@ -3,30 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using BugTracker.Domain.Abstract;
 using BugTracker.Domain.Entities;
-using WebMatrix.WebData;
-using System.Web.Security;
-
+using BugTracker.Domain.Concrete;
 namespace BugTracker.WebUI.Controllers
 {
     public class HomeController : Controller
     {
-        private IRepository repository;
-
-        public HomeController(IRepository repository)
-        {
-            this.repository = repository;
-        }
-
         public ActionResult Index()
         {
-            repository.Add();
-            WebSecurity.CreateUserAndAccount("admin", "admin");
-            Roles.CreateRole("administrator");
-            Roles.AddUserToRole("admin", "administrator");
+            BugTrackerDBContext context = new BugTrackerDBContext();
+            context.Milestones.Add(new Milestone() { MilestoneId = 1, DueDate = DateTime.Now, Name = "FirstMilestone" });
+
             return View();
         }
 
+        public ActionResult About()
+        {
+            ViewBag.Message = "Your application description page.";
+
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
     }
 }

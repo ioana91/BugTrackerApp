@@ -16,7 +16,7 @@ namespace BugTracker.Domain.Entities
         public int ProjectId { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<Person> Persons { get; set; }
+        public virtual ICollection<ApplicationUser> Users { get; set; }
         public virtual ICollection<Issue> Issues { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
     }

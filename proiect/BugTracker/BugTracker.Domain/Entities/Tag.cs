@@ -12,7 +12,7 @@ namespace BugTracker.Domain.Entities
     public class Tag
     {
         [Key]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]        
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int TagId { get; set; }
         public string Name { get; set; }
         public int ProjectId { get; set; }
