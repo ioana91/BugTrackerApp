@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Ninject;
+using BugTracker.Domain.Interfaces;
+using BugTracker.Domain.Concrete;
 
 namespace BugTracker.WebUI.Infrastructure
 {
@@ -26,6 +28,8 @@ namespace BugTracker.WebUI.Infrastructure
         private void AddBindings()
         {
             //ninjectKernel.Bind<IRepository>().To<BugTrackerRepository>();
+            ninjectKernel.Bind<IUnitOfWork>().To<UnitOfWork>();
+            //ninjectKernel.Bind<IGenericRepository<TEntity>>().To<GenericRepository<Te>>();
         }
     }
 }

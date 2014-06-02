@@ -5,15 +5,23 @@ using System.Web;
 using System.Web.Mvc;
 using BugTracker.Domain.Entities;
 using BugTracker.Domain.Concrete;
+using BugTracker.Domain.Interfaces;
+
 namespace BugTracker.WebUI.Controllers
 {
     public class HomeController : Controller
     {
+        private IUnitOfWork unitOfWork;
+
+        public HomeController(IUnitOfWork unitOfWork)
+        {
+            this.unitOfWork = unitOfWork;
+        }
+
         public ActionResult Index()
         {
-            BugTrackerDBContext context = new BugTrackerDBContext();
-            context.Milestones.Add(new Milestone() { MilestoneId = 1, DueDate = DateTime.Now, Name = "FirstMilestone" });
-
+            unitOfWork.MilestoneRepository.Insert(new Milestone() { MilestoneId = 2, DueDate = DateTime.Now, Name = "The second One" });
+            unitOfWork.SaveAsync();
             return View();
         }
 
