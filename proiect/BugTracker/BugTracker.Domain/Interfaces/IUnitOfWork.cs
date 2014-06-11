@@ -11,6 +11,8 @@ namespace BugTracker.Domain.Interfaces
     public interface IUnitOfWork : IDisposable
     {
         Task SaveAsync();
+        BugTrackerDBContext GetContext { get; }
+
         GenericRepository<ApplicationUser> UserRepository { get; }
         GenericRepository<Comment> CommentRepository { get; }
         GenericRepository<Issue> IssueRepository { get; }

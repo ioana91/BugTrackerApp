@@ -10,7 +10,7 @@ namespace BugTracker.Domain.Concrete
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
-        private BugTrackerDBContext context = new BugTrackerDBContext();
+        private readonly BugTrackerDBContext context;
 
         private GenericRepository<ApplicationUser> userRepository;
         private GenericRepository<Comment> commentRepository;
@@ -19,6 +19,12 @@ namespace BugTracker.Domain.Concrete
         private GenericRepository<Project> projectRepository;
         private GenericRepository<Tag> tagRepository;
 
+        public UnitOfWork(BugTrackerDBContext context)
+        {
+            this.context = context;
+        }
+
+        #region Repositories
         public GenericRepository<ApplicationUser> UserRepository
         {
             get
@@ -90,12 +96,19 @@ namespace BugTracker.Domain.Concrete
                 return tagRepository;
             }
         }
+        #endregion
 
         public async Task SaveAsync()
         {
             await context.SaveChangesAsync();
         }
 
+        public BugTrackerDBContext GetContext
+        {
+            get { return context; }
+        }
+
+        #region IDisposable Implementation
         private bool disposed = false;
 
         protected virtual void Dispose(bool disposing)
@@ -116,5 +129,6 @@ namespace BugTracker.Domain.Concrete
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+        #endregion
     }
 }

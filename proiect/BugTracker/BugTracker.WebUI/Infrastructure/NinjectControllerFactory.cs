@@ -5,8 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Ninject;
+using Ninject.Web.Common;
 using BugTracker.Domain.Interfaces;
 using BugTracker.Domain.Concrete;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace BugTracker.WebUI.Infrastructure
 {
@@ -27,9 +30,8 @@ namespace BugTracker.WebUI.Infrastructure
 
         private void AddBindings()
         {
-            //ninjectKernel.Bind<IRepository>().To<BugTrackerRepository>();
+            ninjectKernel.Bind<BugTrackerDBContext>().ToSelf().InRequestScope();
             ninjectKernel.Bind<IUnitOfWork>().To<UnitOfWork>();
-            //ninjectKernel.Bind<IGenericRepository<TEntity>>().To<GenericRepository<Te>>();
         }
     }
 }
