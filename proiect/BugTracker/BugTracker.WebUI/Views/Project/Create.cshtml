@@ -1,0 +1,32 @@
+﻿@model BugTracker.Domain.Entities.Project
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@section AddToHead{
+    <link href="~/Content/Colorgraph.css" rel="stylesheet" />
+}
+<div class="row" style="margin-top:20px">
+    <div class="col-xs-12 col-sm-8 col-md-6">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <h2>Create a new project</h2>
+            <hr class="colorgraph">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Project Name", autofocus = "" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+
+            <hr class="colorgraph">
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        }
+    </div>
+</div>

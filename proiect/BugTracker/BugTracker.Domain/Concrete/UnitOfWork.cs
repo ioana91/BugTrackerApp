@@ -12,89 +12,56 @@ namespace BugTracker.Domain.Concrete
     {
         private readonly BugTrackerDBContext context;
 
-        private GenericRepository<ApplicationUser> userRepository;
-        private GenericRepository<Comment> commentRepository;
-        private GenericRepository<Issue> issueRepository;
-        private GenericRepository<Milestone> milestoneRepository;
-        private GenericRepository<Project> projectRepository;
-        private GenericRepository<Tag> tagRepository;
+        private IGenericRepository<ApplicationUser> userRepository;
+        private IGenericRepository<Comment> commentRepository;
+        private IGenericRepository<Issue> issueRepository;
+        private IGenericRepository<Milestone> milestoneRepository;
+        private IGenericRepository<Project> projectRepository;
+        private IGenericRepository<Tag> tagRepository;
 
-        public UnitOfWork(BugTrackerDBContext context)
+        public UnitOfWork(BugTrackerDBContext context, IGenericRepository<ApplicationUser> userRepository,
+            IGenericRepository<Comment> commentRepository, IGenericRepository<Issue> issueRepository,
+            IGenericRepository<Milestone> milestoneRepository, IGenericRepository<Project> projectRepository,
+            IGenericRepository<Tag> tagRepository)
         {
             this.context = context;
+            this.userRepository = userRepository;
+            this.commentRepository = commentRepository;
+            this.issueRepository = issueRepository;
+            this.milestoneRepository = milestoneRepository;
+            this.projectRepository = projectRepository;
+            this.tagRepository = tagRepository;
         }
 
         #region Repositories
-        public GenericRepository<ApplicationUser> UserRepository
+        public IGenericRepository<ApplicationUser> UserRepository
         {
-            get
-            {
-                if (this.userRepository == null)
-                {
-                    this.userRepository = new GenericRepository<ApplicationUser>(context);
-                }
-                return userRepository;
-            }
+            get { return userRepository; }
         }
 
-        public GenericRepository<Comment> CommentRepository
+        public IGenericRepository<Comment> CommentRepository
         {
-            get 
-            {
-                if (this.commentRepository == null)
-                {
-                    this.commentRepository = new GenericRepository<Comment>(context);
-                }
-                return commentRepository;
-            }
+            get { return commentRepository; }
         }
 
-        public GenericRepository<Issue> IssueRepository
+        public IGenericRepository<Issue> IssueRepository
         {
-            get
-            {
-                if (this.issueRepository == null)
-                {
-                    this.issueRepository = new GenericRepository<Issue>(context);
-                }
-                return issueRepository;
-            }
+            get { return issueRepository; }
         }
 
-        public GenericRepository<Milestone> MilestoneRepository
+        public IGenericRepository<Milestone> MilestoneRepository
         {
-            get
-            {
-                if (this.milestoneRepository == null)
-                {
-                    this.milestoneRepository = new GenericRepository<Milestone>(context);
-                }
-                return milestoneRepository;
-            }
+            get { return milestoneRepository; }
         }
 
-        public GenericRepository<Project> ProjectRepository
+        public IGenericRepository<Project> ProjectRepository
         {
-            get
-            {
-                if (this.projectRepository == null)
-                {
-                    this.projectRepository = new GenericRepository<Project>(context);
-                }
-                return projectRepository;
-            }
+            get { return projectRepository; }
         }
 
-        public GenericRepository<Tag> TagRepository
+        public IGenericRepository<Tag> TagRepository
         {
-            get
-            {
-                if (this.tagRepository == null)
-                {
-                    this.tagRepository = new GenericRepository<Tag>(context);
-                }
-                return tagRepository;
-            }
+            get { return tagRepository; }
         }
         #endregion
 

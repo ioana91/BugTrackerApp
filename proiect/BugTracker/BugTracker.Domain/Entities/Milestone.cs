@@ -15,6 +15,8 @@ namespace BugTracker.Domain.Entities
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int MilestoneId { get; set; }
         public string Name { get; set; }
+        [DataType(DataType.Date)]
+        //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DueDate { get; set; }
 
         public virtual ICollection<Issue> Issues { get; set; }

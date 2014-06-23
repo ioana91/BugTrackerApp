@@ -1,0 +1,42 @@
+﻿@model BugTracker.Domain.Entities.Milestone
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@section AddToHead{
+    <link href="~/Content/Colorgraph.css" rel="stylesheet" />
+    <link href="~/Content/datepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/misc/bootstrap-datepicker.js"></script>
+}
+
+<div class="row" style="margin-top:20px">
+    <div class="col-xs-12 col-sm-8 col-md-6">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <h2>Create a new milestone</h2>
+            <hr class="colorgraph" />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Name", autofocus = "" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+
+    <div class="well">
+        @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "datepicker", id = "dp1" } })
+    </div>
+            <div class="input-append date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
+  <input class="span2" size="16" type="text" value="12-02-2012">
+  <span class="add-on"><i class="icon-th"></i></span>
+</div>
+            <hr class="colorgraph" />
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        }
+    </div>
+</div>

@@ -75,9 +75,18 @@ namespace BugTracker.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var userName = model.FirstName.ToLower() + '.' + model.LastName.ToLower();
-                var user = new ApplicationUser() { FirstName = model.FirstName, LastName = model.LastName, 
-                    Email = model.Email, UserName = userName};
+                var delimiters = new char[] { ' ', '-' };
+                var firstNameParts = model.FirstName.Split(delimiters);
+                var lastNameParts = model.LastName.Split(delimiters);
+
+                var userName = firstNameParts[0].ToLower() + '.' + lastNameParts[0].ToLower();
+                var user = new ApplicationUser()
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Email = model.Email,
+                    UserName = userName
+                };
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

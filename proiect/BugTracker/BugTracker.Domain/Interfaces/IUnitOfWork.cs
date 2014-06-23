@@ -13,11 +13,11 @@ namespace BugTracker.Domain.Interfaces
         Task SaveAsync();
         BugTrackerDBContext GetContext { get; }
 
-        GenericRepository<ApplicationUser> UserRepository { get; }
-        GenericRepository<Comment> CommentRepository { get; }
-        GenericRepository<Issue> IssueRepository { get; }
-        GenericRepository<Milestone> MilestoneRepository { get; }
-        GenericRepository<Project> ProjectRepository { get; }
-        GenericRepository<Tag> TagRepository { get; }
+        IGenericRepository<ApplicationUser> UserRepository { get; }
+        IGenericRepository<Comment> CommentRepository { get; }
+        IGenericRepository<Issue> IssueRepository { get; }
+        IGenericRepository<Milestone> MilestoneRepository { get; }
+        IGenericRepository<Project> ProjectRepository { get; }
+        IGenericRepository<Tag> TagRepository { get; }
     }
 }

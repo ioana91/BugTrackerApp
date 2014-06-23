@@ -32,6 +32,7 @@ namespace BugTracker.WebUI.Infrastructure
         {
             ninjectKernel.Bind<BugTrackerDBContext>().ToSelf().InRequestScope();
             ninjectKernel.Bind<IUnitOfWork>().To<UnitOfWork>();
+            ninjectKernel.Bind(typeof(IGenericRepository<>)).To(typeof(GenericRepository<>));
         }
     }
 }
