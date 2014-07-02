@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using BugTracker.Domain.Interfaces;
 using BugTracker.Domain.Entities;
+using System.Threading.Tasks;
 
 namespace BugTracker.WebUI.Controllers
 {
@@ -16,6 +17,14 @@ namespace BugTracker.WebUI.Controllers
         public ProjectController(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
+        }
+
+        //
+        // GET: Project/Index
+        public async Task<ActionResult> Index()
+        {
+            var projects = await unitOfWork.ProjectRepository.Get();
+            return View();
         }
 
         //

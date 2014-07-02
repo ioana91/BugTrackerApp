@@ -1,0 +1,60 @@
+﻿@model BugTracker.WebUI.Models.MilestoneIndexViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section AddToHead{
+    <link href="~/Content/Colorgraph.css" rel="stylesheet" />
+}
+
+<h2>Milestones</h2>
+<hr class="colorgraph">
+@for (int i = 0; i < Model.Projects.Count(); i++)
+{
+    <h4>@Model.Projects[i].Name</h4>
+    foreach (var milestone in Model.MilestoneDetails)
+    {
+        if (milestone.ProjectId == @Model.Projects[i].ProjectId)
+        {
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <strong>@milestone.Name</strong>
+                        <p>Due date: @milestone.Date.Date.ToString("d")</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" style="width: @milestone.ClosedIssues%"></div>
+                            <div class="progress-bar progress-bar-info" style="width: @milestone.InTestingIssues%"></div>
+                            <div class="progress-bar progress-bar-warning" style="width : @milestone.InProgressIssues%"></div>
+                            <div class="progress-bar progress-bar-danger" style="width: @milestone.ClosedIssues%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            if (User.IsInRole("Manager"))
+            {
+                <span class="pull-right">
+                    <button class="btn btn-sm btn-warning" type="button" data-toggle="tooltip"
+                            data-original-title="Edit this issue" data-placement="top">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </button>
+
+                    <button class="btn btn-sm btn-danger" type="button" data-toggle="tooltip"
+                            data-original-title="Edit this issue" data-placement="top">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </button>
+                </span>
+                <br />
+            }
+
+            if (i != Model.Projects.Count - 1)
+            {
+                <hr />
+            }
+        }
+    }
+}
+<hr class="colorgraph">

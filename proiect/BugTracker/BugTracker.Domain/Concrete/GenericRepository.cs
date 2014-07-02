@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BugTracker.Domain.Interfaces;
 using System.Data.Entity;
+using System.Linq.Expressions;
 
 namespace BugTracker.Domain.Concrete
 {
@@ -29,7 +30,7 @@ namespace BugTracker.Domain.Concrete
             return await dbSet.FindAsync(id);
         }
 
-        public async Task<IEnumerable<TEntity>> Get(System.Linq.Expressions.Expression<Func<TEntity, bool>> filter = null, 
+        public async Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity, bool>> filter = null, 
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderby = null, string includeProperties = "")
         {
             IQueryable<TEntity> query = dbSet;

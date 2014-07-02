@@ -60,6 +60,9 @@ namespace BugTracker.WebUI.Controllers
 
                 if (result.Succeeded)
                 {
+                    var currentUser = userManager.FindByName(user.UserName);
+                    userManager.AddToRole(currentUser.Id, "Employee");
+
                     return RedirectToAction("Index", "Home");
                 }
                 else

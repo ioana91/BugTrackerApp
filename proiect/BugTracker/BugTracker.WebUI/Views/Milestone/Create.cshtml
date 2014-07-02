@@ -1,4 +1,4 @@
-﻿@model BugTracker.Domain.Entities.Milestone
+﻿@model BugTracker.WebUI.Models.MilestoneViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -8,6 +8,7 @@
     <link href="~/Content/Colorgraph.css" rel="stylesheet" />
     <link href="~/Content/datepicker.css" rel="stylesheet" />
     <script src="~/Scripts/misc/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/misc/Milestone_datepicker.js"></script>
 }
 
 <div class="row" style="margin-top:20px">
@@ -25,17 +26,17 @@
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
 
-    <div class="well">
-        @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "datepicker", id = "dp1" } })
-    </div>
-            <div class="input-append date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
-  <input class="span2" size="16" type="text" value="12-02-2012">
-  <span class="add-on"><i class="icon-th"></i></span>
-</div>
+            <div class="form-group">
+                <input class="span2 form-control" id="dp1" type="text" placeholder="Due date">
+                <input type="hidden" name="Date" id="Date" />
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+            
             <hr class="colorgraph" />
 
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                @Html.ActionLink("Cancel", "Index", "Home", null, new { @class = "btn btn-default", style = "width:24.5%" })
+                <input type="submit" value="Create" class="btn btn-primary" style="width:24.5%" />
             </div>
         }
     </div>

@@ -16,7 +16,7 @@ namespace BugTracker.WebUI
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional }
+                defaults: new { controller = "Issue", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

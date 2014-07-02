@@ -11,8 +11,8 @@ namespace BugTracker.Domain.Interfaces
     {
         Task<TEntity> GetByIdAsync(int id);
         Task<TEntity> GetByIdAsync(string id);
-        Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity, bool>> filter,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderby, string includeProperties);
+        Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderby = null, string includeProperties = "");
         //Task<ICollection<TEntity>> GetAllAsync();
 
         void Insert(TEntity entity);

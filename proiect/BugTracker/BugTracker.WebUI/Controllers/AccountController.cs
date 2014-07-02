@@ -90,6 +90,9 @@ namespace BugTracker.WebUI.Controllers
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    var currentUser = userManager.FindByName(user.UserName);
+                    userManager.AddToRole(currentUser.Id, "Manager");
+
                     await SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }

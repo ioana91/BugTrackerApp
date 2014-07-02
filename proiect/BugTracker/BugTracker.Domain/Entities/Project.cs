@@ -19,5 +19,6 @@ namespace BugTracker.Domain.Entities
         public virtual ICollection<ApplicationUser> Users { get; set; }
         public virtual ICollection<Issue> Issues { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
+        public virtual ICollection<Milestone> Milestones { get; set; }
     }
 }

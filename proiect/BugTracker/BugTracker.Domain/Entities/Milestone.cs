@@ -18,7 +18,10 @@ namespace BugTracker.Domain.Entities
         [DataType(DataType.Date)]
         //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DueDate { get; set; }
+        public int ProjectId { get; set; }
 
+        [ForeignKey("ProjectId")]
+        public virtual Project Project { get; set; }
         public virtual ICollection<Issue> Issues { get; set; }
     }
 }

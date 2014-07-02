@@ -16,7 +16,7 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/Colorgraph.css")
-    @Styles.Render("~/Content/themify-icons.css")
+    <link href="~/Content/icons.css" rel="stylesheet" />
 
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
@@ -39,14 +39,14 @@
 
                         <div class="form-group">
                             <div class="input-group input-group-lg">
-                                <span class="input-group-addon"><span class="ti-user"></span></span>
+                                <span class="input-group-addon"><span class="icon-user"></span></span>
                                 @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "Username", autofocus = "", style = "max-width:100%" })
                             </div>
                             @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
                         </div>
                         <div class="form-group">
                             <div class="input-group input-group-lg">
-                                <span class="input-group-addon"><span class="ti-key"></span></span>
+                                <span class="input-group-addon"><span class="icon-key"></span></span>
                                 @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", style = "max-width:100%" })
                             </div>
                             @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })

@@ -34,6 +34,8 @@ namespace BugTracker.Domain.Entities
         public virtual ICollection<Tag> Tags { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<ApplicationUser> UsersInvolved { get; set; }
+
+        public string Color { get; set; }
     }
 
     public enum IssueStatus
@@ -41,7 +43,8 @@ namespace BugTracker.Domain.Entities
         Open,
         InProgress,
         InTesting,
-        Closed
+        Closed,
+        Unsolvable
     }
 
     public enum IssuePriority

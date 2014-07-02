@@ -1,0 +1,110 @@
+﻿@model BugTracker.Domain.Entities.Issue
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@section AddToHead{
+    <link href="~/Content/Colorgraph.css" rel="stylesheet" />
+    <link href="~/Content/RadioButtonToggle.css" rel="stylesheet" />
+    <link href="~/Content/icons.css" rel="stylesheet" />
+    <script src="~/Scripts/misc/RadioButtonToggle.js"></script>
+    <script src="~/Scripts/misc/Button-radio.js"></script>
+}
+
+<div class="row" style="margin-top:20px">
+    <div class="col-xs-12 col-sm-8 col-md-6">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <h2>Create a new issue</h2>
+            <hr class="colorgraph" />
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                <div id="radioBtn">
+                    <a class="btn btn-danger active" data-toggle="Type" data-title="Bug" style="width:24.5%">Bug</a>
+                    <a class="btn btn-success notActive" data-toggle="Type" data-title="Feature" style="width:24.5%">Feature</a>
+                </div>
+                <input type="hidden" name="Type" id="Type" />
+                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @placeholder = "Title", style = "max-width:100%" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <textarea class="form-control" rows="4" placeholder="Description" id="Description" name="Description" style="max-width:100%"></textarea>
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <div id="button-radio">
+                    <button type="button" class="btn btn-success" data-toggle="Priority" data-title="Low" style="width:24.5%">Low</button>
+                    <button type="button" class="btn btn-info" data-toggle="Priority" data-title="Medium" style="width:24.5%">Medium</button>
+                    <button type="button" class="btn btn-warning" data-toggle="Priority" data-title="High" style="width:24.5%">High</button>
+                    <button type="button" class="btn btn-danger" data-toggle="Priority" data-title="Critical" style="width:24.5%">Critical</button>
+                </div>
+                <input type="hidden" name="Priority" id="Priority" />
+                @Html.ValidationMessageFor(model => model.Priority, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.DropDownList("ProjectSelectId", null, "Select project", htmlAttributes: new { @class = "form-control", style = "max-width:100%" })
+                @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @*!!!!!!!!!MODIFICA AICI*@
+                @Html.DropDownList("ProjectSelectId", null, "Select milestone", htmlAttributes: new { @class = "form-control", style = "max-width:100%" })
+                @Html.ValidationMessageFor(model => model.MilestoneId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    @Html.TextBox("Tags", null, htmlAttributes: new { @class = "form-control", style = "max-width:100%", placeholder = "Tags" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
+                </div>
+            </div>
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.ProjectId, "ProjectId", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("ProjectId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.MilestoneId, "MilestoneId", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("MilestoneId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.MilestoneId, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.ResponsibleId, "ResponsibleId", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("ResponsibleId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ResponsibleId, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+            <hr class="colorgraph" />
+
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    @Html.ActionLink("Cancel", "Index", "Home", null, new { @class = "btn btn-default btn-block btn-lg" })
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <input type="submit" value="Create" class="btn btn-primary btn-block btn-lg" />
+                </div>
+            </div>
+        }
+    </div>
+</div>

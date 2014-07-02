@@ -1,0 +1,95 @@
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<BugTracker.Domain.Entities.Issue>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section AddToHead{
+    <link href="~/Content/Colorgraph.css" rel="stylesheet" />
+    <link href="~/Content/CollapsiblePanel.css" rel="stylesheet" />
+    <script src="~/Scripts/misc/CollapsiblePanel.js"></script>
+}
+
+<div class="row" style="margin-top:40px">
+    @foreach (var issue in Model)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+                <span class="label label-@issue.Color pull-left">@issue.Priority</span>
+                <h3 class="panel-title pull-left" style="padding-left:10px">@issue.Title</h3>
+                <span class="pull-right clickable panel-collapsed"><i class="glyphicon glyphicon-chevron-up text-muted"></i></span>
+            </div>
+            <div class="panel-body">
+                <hr class="colorgraph" />
+
+                <strong>Type</strong>
+                @if (issue.Type == BugTracker.Domain.Entities.IssueType.Bug)
+                {
+                    <span class="label label-danger" style="margin-left:10px">@issue.Type</span>
+                }
+                else
+                {
+                    <span class="label label-success" style="margin-left:10px">@issue.Type</span>
+                }
+                <br /><br />
+
+                <strong>@Html.DisplayNameFor(model => model.Description)</strong>
+                <p>@issue.Description</p>
+
+                <strong>Status</strong>
+
+                @if (issue.Status == BugTracker.Domain.Entities.IssueStatus.InProgress)
+                {
+                    <span class="label label-@issue.Color" style="margin-left:10px">In Progress</span>
+                }
+                else if (issue.Status == BugTracker.Domain.Entities.IssueStatus.InTesting)
+                {
+                    <span class="label label-@issue.Color" style="margin-left:10px">In Testing</span>
+                }
+                else
+                {
+                    <span class="label label-@issue.Color" style="margin-left:10px">@issue.Status</span>
+                }
+                <br /><br />
+
+                <strong class="pull-left">Project</strong>
+                <p class="pull-left" style="margin-left:10px">@issue.Project.Name</p>
+                <br /><br />
+
+                <strong class="pull-left">Milestone</strong>
+                <p class="pull-left" style="margin-left:10px">@issue.Milestone.Name</p>
+                <br />
+                @if (@issue.Responsible != null)
+                {
+                    <br />
+                    <strong class="pull-left">Responsible</strong>
+                    <p class="pull-left" style="margin-left:10px">@issue.Responsible.DisplayName</p>
+                    <br />
+                }
+
+                <hr class="colorgraph" />
+                <span class="pull-left">
+                    <button class="btn btn-sm btn-primary" type="button" data-toggle="tooltip"
+                            data-original-title="Edit this issue" data-placement="top">
+                        <i class="glyphicon glyphicon-pushpin"></i>
+                    </button>
+                </span>
+                <span class="pull-right">
+                    <button class="btn btn-sm btn-warning" type="button" data-toggle="tooltip"
+                            data-original-title="Edit this issue" data-placement="top">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </button>
+
+                    @if (User.IsInRole("Manager"))
+                    {
+                        <button class="btn btn-sm btn-danger" type="button" data-toggle="tooltip"
+                                data-original-title="Edit this issue" data-placement="top">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </button>
+                    }
+                </span>
+            </div>
+        </div>
+    }
+</div>
