@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BugTracker.Domain.Interfaces;
+using BugTracker.Domain.Entities;
 using BugTracker.WebUI.Models;
 using System.Threading.Tasks;
 
@@ -83,16 +84,27 @@ namespace BugTracker.WebUI.Controllers
         // GET: Milestone/Create
         public ActionResult Create()
         {
+            var user = unitOfWork.UserRepository.Get(filter: u => u.UserName == User.Identity.Name, includeProperties: "Projects");
+            var projects = user.FirstOrDefault().Projects.ToList();
+            
+            ViewBag.ProjectSelectId = new SelectList(projects, "ProjectId", "Name");
+
             return View();
         }
 
         //
         //POST: Milestone/Create
         [HttpPost]
-        public ActionResult Create(MilestoneViewModel model)
+        public async Task<ActionResult> Create(MilestoneViewModel model)
         {
-            var date = new DateTime(long.Parse(model.Date));
-            return null;
+            var dueDate = new DateTime(model.Year, model.Month + 1, model.Date);
+            var projectId = int.Parse(((string[])model.Project)[0]);
+
+            var milestone = new Milestone() { DueDate = dueDate, Name = model.Name, ProjectId = projectId };
+            unitOfWork.MilestoneRepository.Insert(milestone);
+            await unitOfWork.SaveAsync();
+
+            return RedirectToAction("Index", "Issue");
         }
     }
 }

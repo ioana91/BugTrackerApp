@@ -29,11 +29,15 @@
             <div class="form-group">
                 <input class="span2 form-control" id="dp1" type="text" placeholder="Due date">
                 <input type="hidden" name="Date" id="Date" />
+                <input type="hidden" name="Month" id="Month" />
+                <input type="hidden" name="Year" id="Year" />
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
             </div>
-            
-            <p>I also need a project!!</p>
-            
+
+            <div class="form-group">
+                @Html.DropDownList("Project", ViewBag.ProjectSelectId as SelectList, "Select project", htmlAttributes: new { @class = "form-control" })
+            </div>
+
             <hr class="colorgraph" />
 
             <div class="form-group">

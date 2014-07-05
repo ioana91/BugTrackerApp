@@ -7,6 +7,8 @@
             return date.valueOf() < now.valueOf() ? 'disabled' : '';
         }
     }).on('changeDate', function (ev) {
-        $('#Date').prop('value', ev.date.valueOf());
+        $('#Date').prop('value', ev.date.getDate());
+        $('#Month').prop('value', ev.date.getMonth());
+        $('#Year').prop('value', ev.date.getUTCFullYear());
     });
 });

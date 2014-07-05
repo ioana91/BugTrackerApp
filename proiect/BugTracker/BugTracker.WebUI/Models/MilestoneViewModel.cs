@@ -12,6 +12,15 @@ namespace BugTracker.WebUI.Models
         public string Name { get; set; }
 
         [Required]
-        public string Date { get; set; }
+        public int Date { get; set; }
+
+        [Required]
+        public int Month { get; set; }
+
+        [Required]
+        public int Year { get; set; }
+
+        [Required]
+        public object Project { get; set; }
     }
 }

@@ -59,10 +59,21 @@
                             </ul>
                         </li>
                     }
+                    else
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Milestones <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("View milestones", "Index", "Milestone")</li>
+                            </ul>
+                        </li>
+                    }
                     <li>
                         <a href="/Issue/Create"><i class="glyphicon glyphicon-plus" id="plus_issue"></i> Add issue</a>
                     </li>
                 </ul>
+
+
 
                 @Html.Partial("_LoginPartial")
             </div>
