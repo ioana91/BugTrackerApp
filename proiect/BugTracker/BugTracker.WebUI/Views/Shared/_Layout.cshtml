@@ -13,6 +13,11 @@
     {
         @RenderSection("AddToHead", required: false)
     }
+    <style>
+        #plus_issue {
+            font-size: 12px;
+        }
+    </style>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -32,6 +37,8 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Projects <b class="caret"></b></a>
                             <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Manage projects", "Index", "Project")</li>
+                                <li class="divider"></li>
                                 <li>@Html.ActionLink("Create new project", "Create", "Project")</li>
                             </ul>
                         </li>
@@ -43,9 +50,17 @@
                                 <li>@Html.ActionLink("Create new milestone", "Create", "Milestone")</li>
                             </ul>
                         </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Users <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Manage users", "Index", "User")</li>
+                                <li class="divider"></li>
+                                <li>@Html.ActionLink("Add new user", "Add", "User")</li>
+                            </ul>
+                        </li>
                     }
                     <li>
-                        <a href="/Issue/Create"><i class="glyphicon glyphicon-plus"></i> Add issue</a>
+                        <a href="/Issue/Create"><i class="glyphicon glyphicon-plus" id="plus_issue"></i> Add issue</a>
                     </li>
                 </ul>
 

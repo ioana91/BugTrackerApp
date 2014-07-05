@@ -30,7 +30,7 @@ namespace BugTracker.WebUI.Infrastructure
 
         private void AddBindings()
         {
-            ninjectKernel.Bind<BugTrackerDBContext>().ToSelf().InRequestScope();
+            ninjectKernel.Bind<BugTrackerDBContext>().ToSelf().InSingletonScope();
             ninjectKernel.Bind<IUnitOfWork>().To<UnitOfWork>();
             ninjectKernel.Bind(typeof(IGenericRepository<>)).To(typeof(GenericRepository<>));
         }

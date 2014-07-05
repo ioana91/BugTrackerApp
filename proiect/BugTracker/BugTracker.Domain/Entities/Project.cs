@@ -11,6 +11,11 @@ namespace BugTracker.Domain.Entities
     [Table("Project")]
     public class Project
     {
+        public Project()
+        {
+            Users = new List<ApplicationUser>();
+        }
+
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int ProjectId { get; set; }

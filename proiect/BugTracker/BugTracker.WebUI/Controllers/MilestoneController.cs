@@ -20,9 +20,9 @@ namespace BugTracker.WebUI.Controllers
 
         //
         // GET: Milestone/Index
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            var milestones = await unitOfWork.MilestoneRepository.Get();
+            var milestones = unitOfWork.MilestoneRepository.Get();
             var projects = milestones.Select(m => m.Project).Distinct().ToList();
             var milestoneDetailsList = new List<MilestoneDetails>();
 

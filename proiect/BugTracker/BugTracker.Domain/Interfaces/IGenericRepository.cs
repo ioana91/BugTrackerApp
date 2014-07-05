@@ -11,15 +11,15 @@ namespace BugTracker.Domain.Interfaces
     {
         Task<TEntity> GetByIdAsync(int id);
         Task<TEntity> GetByIdAsync(string id);
-        Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity, bool>> filter = null,
+        IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderby = null, string includeProperties = "");
-        //Task<ICollection<TEntity>> GetAllAsync();
 
         void Insert(TEntity entity);
 
         void Update(TEntity entity);
 
         void Delete(int id);
+        void Delete(string id);
         void Delete(TEntity entity);
     }
 }

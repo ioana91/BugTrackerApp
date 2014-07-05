@@ -170,6 +170,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController-generated.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IssueController.cs" />
     <Compile Include="Controllers\MilestoneController.cs" />
@@ -187,6 +188,8 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\AddAndRemoveFormFields.css" />
+    <Content Include="Content\autocomplete.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\CollapsiblePanel.css" />
@@ -195,6 +198,7 @@
     <Content Include="Content\FloatLabel.css" />
     <Content Include="Content\fonts\icomoon.svg" />
     <Content Include="Content\icons.css" />
+    <Content Include="Content\LabelColors.css" />
     <Content Include="Content\RadioButtonToggle.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -216,12 +220,16 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\misc\AddAndRemoveFormFields.js" />
     <Content Include="Scripts\misc\bootstrap-datepicker.js" />
     <Content Include="Scripts\misc\Button-checkbox.js" />
     <Content Include="Scripts\misc\Button-radio.js" />
     <Content Include="Scripts\misc\CollapsiblePanel.js" />
+    <Content Include="Scripts\misc\Employee_autocomplete.js" />
     <Content Include="Scripts\misc\FloatLabel.js" />
+    <Content Include="Scripts\misc\jquery.autocomplete.js" />
     <Content Include="Scripts\misc\Milestone_datepicker.js" />
+    <Content Include="Scripts\misc\ModalDeleteUser.js" />
     <Content Include="Scripts\misc\RadioButtonToggle.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
@@ -264,6 +272,9 @@
     <Content Include="Views\Issue\Index.cshtml" />
     <Content Include="Views\Milestone\Index.cshtml" />
     <Content Include="Views\Issue\Edit.cshtml" />
+    <Content Include="Views\Comment\Index.cshtml" />
+    <Content Include="Views\Project\Index.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

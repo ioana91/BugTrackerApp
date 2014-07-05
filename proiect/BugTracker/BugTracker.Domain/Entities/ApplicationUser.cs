@@ -12,6 +12,7 @@ namespace BugTracker.Domain.Entities
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string ManagerId { get; set; }
 
         public virtual ICollection<Project> Projects { get; set; }
         public virtual ICollection<Issue> Issues { get; set; }

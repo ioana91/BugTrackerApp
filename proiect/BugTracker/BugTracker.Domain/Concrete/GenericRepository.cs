@@ -30,14 +30,14 @@ namespace BugTracker.Domain.Concrete
             return await dbSet.FindAsync(id);
         }
 
-        public async Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity, bool>> filter = null, 
+        public IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null, 
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderby = null, string includeProperties = "")
         {
             IQueryable<TEntity> query = dbSet;
 
             if (filter != null)
             {
-                query.Where(filter);
+                query = query.Where(filter);
             }
 
             foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, 
@@ -48,10 +48,10 @@ namespace BugTracker.Domain.Concrete
 
             if (orderby != null)
             {
-                return await orderby(query).ToListAsync();
+                return orderby(query).ToList();
             }
 
-            return await query.ToListAsync();
+            return query.ToList();
         }
 
         public void Insert(TEntity entity)
@@ -66,6 +66,12 @@ namespace BugTracker.Domain.Concrete
         }
 
         public void Delete(int id)
+        {
+            TEntity entity = dbSet.Find(id);
+            Delete(entity);
+        }
+
+        public void Delete(string id)
         {
             TEntity entity = dbSet.Find(id);
             Delete(entity);

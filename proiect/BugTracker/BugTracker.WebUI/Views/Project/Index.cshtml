@@ -1,0 +1,64 @@
+﻿@model List<BugTracker.Domain.Entities.Project>
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section AddToHead{
+    <link href="~/Content/Colorgraph.css" rel="stylesheet" />
+    <link href="~/Content/autocomplete.css" rel="stylesheet" />
+    <script src="~/Scripts/misc/jquery.autocomplete.js"></script>
+    <script src="~/Scripts/misc/Employee_autocomplete.js"></script>
+}
+<div class="row" style="margin-top:20px">
+    <h2>Projects</h2>
+    <hr class="colorgraph" />
+
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <h4>@Model[i].Name</h4>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="controls" id="@Model[i].Name">
+                        @foreach (var employee in Model[i].Users)
+                        {
+                            if (User.Identity.GetUserName() != employee.UserName)
+                            {
+                                <div class="entry input-group col-xs-3" style="width:39%">
+                                    <input class="query form-control" name="employees[]" type="text" value="@employee.DisplayName" />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-danger btn-remove" type="button">
+                                            <span class="glyphicon glyphicon-minus"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            }
+                        }
+                        <div class="entry input-group col-xs-3" style="width:39%">
+                            <input class="query form-control" name="employees[]" type="text" placeholder="Add new employees" />
+                            <span class="input-group-btn">
+                                <button class="btn btn-success btn-add" type="button">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        if (i != Model.Count() - 1)
+        {
+            <hr />
+        }
+    }
+
+    <hr class="colorgraph" />
+    @Html.ActionLink("Save", "Index", "Issue", null, new { @class = "btn btn-primary", style = "width:10%", @id = "saveBtn" })
+</div>

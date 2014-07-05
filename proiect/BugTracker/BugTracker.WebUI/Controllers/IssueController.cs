@@ -20,17 +20,17 @@ namespace BugTracker.WebUI.Controllers
 
         //
         // GET: Issue/Index
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            var issues = await unitOfWork.IssueRepository.Get();
+            var issues = unitOfWork.IssueRepository.Get(includeProperties: "Tags");
             return View(issues);
         }
 
         //
         // GET: Issue/Create
-        public async Task<ActionResult> Create()
+        public ActionResult Create()
         {
-            var projects = await unitOfWork.ProjectRepository.Get();
+            var projects = unitOfWork.ProjectRepository.Get();
             ViewBag.ProjectSelectId = new SelectList(projects, "ProjectId", "Name");
 
             return View();
@@ -40,7 +40,7 @@ namespace BugTracker.WebUI.Controllers
         // Edit: Issue/Edit/5
         public async Task<ActionResult> Edit(int id = 0)
         {
-            var projects = await unitOfWork.ProjectRepository.Get();
+            var projects = unitOfWork.ProjectRepository.Get();
             ViewBag.ProjectSelectId = new SelectList(projects, "ProjectId", "Name");
 
             var issue = await unitOfWork.IssueRepository.GetByIdAsync(id);

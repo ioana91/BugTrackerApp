@@ -94,7 +94,7 @@ namespace BugTracker.WebUI.Controllers
                     userManager.AddToRole(currentUser.Id, "Manager");
 
                     await SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Issue");
                 }
                 else
                 {

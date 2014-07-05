@@ -8,6 +8,7 @@
 @section AddToHead{
     <link href="~/Content/Colorgraph.css" rel="stylesheet" />
     <link href="~/Content/CollapsiblePanel.css" rel="stylesheet" />
+    <link href="~/Content/LabelColors.css" rel="stylesheet" />
     <script src="~/Scripts/misc/CollapsiblePanel.js"></script>
 }
 
@@ -41,17 +42,17 @@
 
                 @if (issue.Status == BugTracker.Domain.Entities.IssueStatus.InProgress)
                 {
-                    <span class="label label-@issue.Color" style="margin-left:10px">In Progress</span>
+                    <span class="label label-primary" style="margin-left:10px">In Progress</span>
                 }
                 else if (issue.Status == BugTracker.Domain.Entities.IssueStatus.InTesting)
                 {
-                    <span class="label label-@issue.Color" style="margin-left:10px">In Testing</span>
+                    <span class="label label-primary" style="margin-left:10px">In Testing</span>
                 }
                 else
                 {
-                    <span class="label label-@issue.Color" style="margin-left:10px">@issue.Status</span>
+                    <span class="label label-primary" style="margin-left:10px">@issue.Status</span>
                 }
-                <br /><br />
+                <br /><hr />
 
                 <strong class="pull-left">Project</strong>
                 <p class="pull-left" style="margin-left:10px">@issue.Project.Name</p>
@@ -59,14 +60,25 @@
 
                 <strong class="pull-left">Milestone</strong>
                 <p class="pull-left" style="margin-left:10px">@issue.Milestone.Name</p>
-                <br />
+                                
                 @if (@issue.Responsible != null)
                 {
-                    <br />
+                    <br /><br/>
                     <strong class="pull-left">Responsible</strong>
-                    <p class="pull-left" style="margin-left:10px">@issue.Responsible.DisplayName</p>
-                    <br />
+                    <p class="pull-left" style="margin-left:10px">@issue.Responsible.DisplayName</p>                    
                 }
+
+                @if (@issue.Tags.Count != 0)
+                {
+                    <br /><hr />
+                    <strong class="pull-left">Tags</strong>
+                }
+                @foreach (var tag in issue.Tags.ToList())
+                {
+                    <span class="label label-@tag.Color-new" style="margin-left:10px">@tag.Name</span>
+                }
+
+                <br />
 
                 <hr class="colorgraph" />
                 <span class="pull-left">
@@ -79,6 +91,11 @@
                     <button class="btn btn-sm btn-warning" type="button" data-toggle="tooltip"
                             data-original-title="Edit this issue" data-placement="top">
                         <i class="glyphicon glyphicon-edit"></i>
+                    </button>
+
+                    <button class="btn btn-sm btn-info" type="button" data-toggle="tooltip"
+                            data-original-title="Edit this issue" data-placement="top">
+                        <i class="glyphicon glyphicon-comment"></i>
                     </button>
 
                     @if (User.IsInRole("Manager"))

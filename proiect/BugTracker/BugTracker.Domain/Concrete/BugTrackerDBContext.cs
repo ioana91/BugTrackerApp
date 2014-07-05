@@ -17,6 +17,7 @@ namespace BugTracker.Domain.Concrete
         }
 
         //public DbSet<ApplicationUser> Users { get; set; }
+        //public System.Data.Entity.DbSet<BugTracker.Domain.Entities.ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Issue> Issues { get; set; }
         public DbSet<Milestone> Milestones { get; set; }
@@ -74,5 +75,6 @@ namespace BugTracker.Domain.Concrete
                         m.ToTable("ProjectUsers");
                     });
         }
+
     }
 }

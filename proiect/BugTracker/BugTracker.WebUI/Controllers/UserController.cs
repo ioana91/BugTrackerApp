@@ -27,6 +27,30 @@ namespace BugTracker.WebUI.Controllers
         }
 
         //
+        // GET: User/Index
+        public ActionResult Index()
+        {
+            var managerId = User.Identity.GetUserId();
+            var users = unitOfWork.UserRepository.Get(filter: u => u.ManagerId == managerId);
+            return View(users);
+        }
+
+        //
+        //POST: User/Delete/id
+        public async Task<ActionResult> Delete (string id)
+        {
+            var user = await unitOfWork.UserRepository.GetByIdAsync(id);
+            user.Issues.Clear();
+            user.Projects.Clear();
+            user.Comments.Clear();
+
+            unitOfWork.UserRepository.Delete(id);
+            await unitOfWork.SaveAsync();
+
+            return RedirectToAction("Index", "Issue");
+        }
+
+        //
         // GET: User/Add
         public ActionResult Add()
         {
@@ -52,7 +76,8 @@ namespace BugTracker.WebUI.Controllers
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     Email = model.Email,
-                    UserName = userName
+                    UserName = userName,
+                    ManagerId = User.Identity.GetUserId()
                 };
                 var result = await userManager.CreateAsync(user, password);
 
@@ -62,8 +87,7 @@ namespace BugTracker.WebUI.Controllers
                 {
                     var currentUser = userManager.FindByName(user.UserName);
                     userManager.AddToRole(currentUser.Id, "Employee");
-
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Issue");
                 }
                 else
                 {
