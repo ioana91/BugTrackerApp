@@ -8,8 +8,12 @@
 @section AddToHead{
     <link href="~/Content/Colorgraph.css" rel="stylesheet" />
     <link href="~/Content/CollapsiblePanel.css" rel="stylesheet" />
-    <link href="~/Content/LabelColors.css" rel="stylesheet" />
+    <link href="~/Content/icons.css" rel="stylesheet" />
+    <script src="~/Scripts/misc/CollapseAllPanels.js"></script>
     <script src="~/Scripts/misc/CollapsiblePanel.js"></script>
+    <script src="~/Scripts/misc/ModalAssignIssue.js"></script>
+    <script src="~/Scripts/misc/ModalDeleteIssue.js"></script>
+    <script src="~/Scripts/misc/ModalUnassignIssue.js"></script>
 }
 
 <div class="row" style="margin-top:40px">
@@ -19,7 +23,8 @@
             <div class="panel-heading clearfix">
                 <span class="label label-@issue.Color pull-left">@issue.Priority</span>
                 <h3 class="panel-title pull-left" style="padding-left:10px">@issue.Title</h3>
-                <span class="pull-right clickable panel-collapsed"><i class="glyphicon glyphicon-chevron-up text-muted"></i></span>
+                <span class="pull-right clickable panel-collapsed"><i class="glyphicon glyphicon-chevron-down text-muted"></i></span>
+                <em class="pull-right" style="padding-right:10px">@issue.Milestone.DueDate.ToString("dd-MMMM-yyyy")</em>
             </div>
             <div class="panel-body">
                 <hr class="colorgraph" />
@@ -60,12 +65,12 @@
 
                 <strong class="pull-left">Milestone</strong>
                 <p class="pull-left" style="margin-left:10px">@issue.Milestone.Name</p>
-                                
+
                 @if (@issue.Responsible != null)
                 {
-                    <br /><br/>
+                    <br /><br />
                     <strong class="pull-left">Responsible</strong>
-                    <p class="pull-left" style="margin-left:10px">@issue.Responsible.DisplayName</p>                    
+                    <p class="pull-left" style="margin-left:10px">@issue.Responsible.DisplayName</p>
                 }
 
                 @if (@issue.Tags.Count != 0)
@@ -75,38 +80,127 @@
                 }
                 @foreach (var tag in issue.Tags.ToList())
                 {
-                    <span class="label label-@tag.Color-new" style="margin-left:10px">@tag.Name</span>
+                    <span class="label label-info" style="margin-left:10px">@tag.Name</span>
                 }
 
                 <br />
 
                 <hr class="colorgraph" />
                 <span class="pull-left">
-                    <button class="btn btn-sm btn-primary" type="button" data-toggle="tooltip"
-                            data-original-title="Edit this issue" data-placement="top">
-                        <i class="glyphicon glyphicon-pushpin"></i>
-                    </button>
+                    @if (issue.Responsible == null)
+                    {
+                        <a class="btn btn-sm btn-primary open-assignIssueDialog" title="Assign issue" data-toggle="modal" href="#assignIssueDialog"
+                           data-id="@issue.IssueId" data-title="@issue.Title">
+                            <i class="glyphicon glyphicon-pushpin"></i>
+                        </a>
+                    }
+                    else if (issue.Responsible.UserName == User.Identity.GetUserName())
+                    {
+                        <a class="btn btn-sm btn-primary open-unassignIssueDialog" title="Unassign issue" data-toggle="modal" href="#unassignIssueDialog"
+                           data-id="@issue.IssueId" data-title="@issue.Title">
+                            <i class="glyphicon glyphicon-share-alt"></i>
+                        </a>
+                    }
+                    else if (issue.Responsible.UserName != User.Identity.GetUserName())
+                    {
+                        <a class="btn btn-sm btn-primary open-assignIssueDialog disabled" title="Assign issue" data-toggle="modal" href="#assignIssueDialog"
+                           data-id="@issue.IssueId" data-title="@issue.Title">
+                            <i class="glyphicon glyphicon-pushpin"></i>
+                        </a>
+                    }
                 </span>
-                <span class="pull-right">
-                    <button class="btn btn-sm btn-warning" type="button" data-toggle="tooltip"
-                            data-original-title="Edit this issue" data-placement="top">
-                        <i class="glyphicon glyphicon-edit"></i>
-                    </button>
 
-                    <button class="btn btn-sm btn-info" type="button" data-toggle="tooltip"
-                            data-original-title="Edit this issue" data-placement="top">
-                        <i class="glyphicon glyphicon-comment"></i>
+                <span class="pull-right">
+                    @if (issue.Status == BugTracker.Domain.Entities.IssueStatus.Closed || issue.Status == BugTracker.Domain.Entities.IssueStatus.Unsolvable)
+                    {
+                        <a class="btn btn-sm btn-warning disabled" type="button" title="Edit issue" href="Issue/Edit/@issue.IssueId">
+                            <i class="glyphicon glyphicon-edit"></i>
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-sm btn-warning" type="button" title="Edit issue" href="Issue/Edit/@issue.IssueId">
+                            <i class="glyphicon glyphicon-edit"></i>
+                        </a>
+                    }
+
+                    <button class="btn btn-sm btn-info" type="button" title="Comments">
+                        <i class="icon-bubbles3"></i>
                     </button>
 
                     @if (User.IsInRole("Manager"))
                     {
-                        <button class="btn btn-sm btn-danger" type="button" data-toggle="tooltip"
-                                data-original-title="Edit this issue" data-placement="top">
-                            <i class="glyphicon glyphicon-remove"></i>
-                        </button>
+                        if (issue.Status == BugTracker.Domain.Entities.IssueStatus.Closed || issue.Status == BugTracker.Domain.Entities.IssueStatus.Unsolvable)
+                        {
+                            <a class="btn btn-sm btn-danger open-deleteIssueDialog disabled" title="Delete issue" data-toggle="modal" href="#deleteIssueDialog"
+                               data-id="@issue.IssueId" data-title="@issue.Title">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-sm btn-danger open-deleteIssueDialog" title="Delete issue" data-toggle="modal" href="#deleteIssueDialog"
+                               data-id="@issue.IssueId" data-title="@issue.Title">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </a>
+                        }
                     }
                 </span>
             </div>
         </div>
     }
+</div>
+
+<div class="modal fade" id="assignIssueDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Assign issue</h4>
+            </div>
+            <div class="modal-body">
+                <p id="questionAssign"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" id="issueId">Assign</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteIssueDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Delete issue</h4>
+            </div>
+            <div class="modal-body">
+                <p id="questionDelete"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" id="issueId">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="unassignIssueDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Unassign issue</h4>
+            </div>
+            <div class="modal-body">
+                <p id="questionUnassign"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" id="issueId">Unassign</a>
+            </div>
+        </div>
+    </div>
 </div>

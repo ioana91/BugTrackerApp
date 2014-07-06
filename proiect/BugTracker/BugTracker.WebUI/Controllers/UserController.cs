@@ -31,23 +31,33 @@ namespace BugTracker.WebUI.Controllers
         public ActionResult Index()
         {
             var managerId = User.Identity.GetUserId();
-            var users = unitOfWork.UserRepository.Get(filter: u => u.ManagerId == managerId);
+            var users = unitOfWork.UserRepository.Get(filter: u => u.ManagerId == managerId, 
+                orderby: employees => employees.OrderBy(u => u.FirstName).ThenBy(u => u.LastName));
             return View(users);
         }
 
         //
-        //POST: User/Delete/id
+        // GET: User/Delete/id
         public async Task<ActionResult> Delete (string id)
         {
             var user = await unitOfWork.UserRepository.GetByIdAsync(id);
-            user.Issues.Clear();
-            user.Projects.Clear();
-            user.Comments.Clear();
+            if (user.Issues != null)
+            {
+                user.Issues.Clear();
+            }
+            if (user.Projects != null)
+            {
+                user.Projects.Clear();
+            }
+            if (user.Comments != null)
+            {
+                user.Comments.Clear();
+            }
 
             unitOfWork.UserRepository.Delete(id);
             await unitOfWork.SaveAsync();
 
-            return RedirectToAction("Index", "Issue");
+            return RedirectToAction("Index", "User");
         }
 
         //
@@ -87,7 +97,7 @@ namespace BugTracker.WebUI.Controllers
                 {
                     var currentUser = userManager.FindByName(user.UserName);
                     userManager.AddToRole(currentUser.Id, "Employee");
-                    return RedirectToAction("Index", "Issue");
+                    return RedirectToAction("Index", "User");
                 }
                 else
                 {

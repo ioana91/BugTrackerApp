@@ -8,13 +8,16 @@
     <link href="~/Content/Colorgraph.css" rel="stylesheet" />
     <link href="~/Content/RadioButtonToggle.css" rel="stylesheet" />
     <link href="~/Content/icons.css" rel="stylesheet" />
+    <link href="~/Scripts/misc/MagicSuggest/magicsuggest-min.css" rel="stylesheet" />
     <script src="~/Scripts/misc/RadioButtonToggle.js"></script>
     <script src="~/Scripts/misc/Button-radio.js"></script>
+    <script src="~/Scripts/misc/MagicSuggest/magicsuggest-min.js"></script>
+    <script src="~/Scripts/misc/issue_add.js"></script>
 }
 
 <div class="row" style="margin-top:20px">
     <div class="col-xs-12 col-sm-8 col-md-6">
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("Create", "Issue", FormMethod.Post, new { role = "form" }))
         {
             @Html.AntiForgeryToken()
 
@@ -59,41 +62,14 @@
             </div>
 
             <div class="form-group">
-                @*!!!!!!!!!MODIFICA AICI*@
-                @Html.DropDownList("ProjectSelectId", null, "Select milestone", htmlAttributes: new { @class = "form-control", style = "max-width:100%" })
-                @Html.ValidationMessageFor(model => model.MilestoneId, "", new { @class = "text-danger" })
+                <select class="form-control" style="max-width:100%" id="MilestoneSelectId" name="MilestoneSelectId">
+                    <option>Select milestone</option>
+                </select>
             </div>
 
             <div class="form-group">
-                <div class="input-group">
-                    @Html.TextBox("Tags", null, htmlAttributes: new { @class = "form-control", style = "max-width:100%", placeholder = "Tags" })
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
-                </div>
+                @Html.TextBox("Tags", null, htmlAttributes: new { @class = "form-control", style = "max-width:100%", placeholder = "Tags", id = "magicSuggest" })
             </div>
-
-            @*<div class="form-group">
-                    @Html.LabelFor(model => model.ProjectId, "ProjectId", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("ProjectId", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
-                    </div>
-                </div>*@
-
-            @*<div class="form-group">
-                    @Html.LabelFor(model => model.MilestoneId, "MilestoneId", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("MilestoneId", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.MilestoneId, "", new { @class = "text-danger" })
-                    </div>
-                </div>*@
-
-            @*<div class="form-group">
-                    @Html.LabelFor(model => model.ResponsibleId, "ResponsibleId", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("ResponsibleId", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.ResponsibleId, "", new { @class = "text-danger" })
-                    </div>
-                </div>*@
 
             <hr class="colorgraph" />
 

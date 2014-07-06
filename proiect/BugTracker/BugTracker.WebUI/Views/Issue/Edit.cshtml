@@ -8,13 +8,21 @@
     <link href="~/Content/Colorgraph.css" rel="stylesheet" />
     <link href="~/Content/RadioButtonToggle.css" rel="stylesheet" />
     <link href="~/Content/icons.css" rel="stylesheet" />
+    <link href="~/Scripts/misc/MagicSuggest/magicsuggest-min.css" rel="stylesheet" />
     <script src="~/Scripts/misc/RadioButtonToggle.js"></script>
-    <script src="~/Scripts/misc/Button-radio.js"></script>
+    <script src="~/Scripts/misc/Button-radio-edit.js"></script>
+    <script src="~/Scripts/misc/MagicSuggest/magicsuggest-min.js"></script>
+    <script>
+
+        var allTags = @Html.Raw(Json.Encode(ViewBag.AllTags));
+        var selectedTags = @Html.Raw(Json.Encode(ViewBag.SelectedTags));
+    </script>
+    <script src="~/Scripts/misc/issue_edit.js"></script>
 }
 
 <div class="row" style="margin-top:20px">
     <div class="col-xs-12 col-sm-8 col-md-6">
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("Edit", "Issue", FormMethod.Post, new { role = "form" }))
         {
             @Html.AntiForgeryToken()
 
@@ -27,10 +35,20 @@
 
                 <div class="form-group">
                     @Html.Label("Type", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div id="radioBtn" class="col-md-10">
-                        <a class="btn btn-danger active" data-toggle="Type" data-title="Bug" style="width:24.5%">Bug</a>
-                        <a class="btn btn-success notActive disabled" data-toggle="Type" data-title="Feature" style="width:24.5%">Feature</a>
-                    </div>
+                    @if (Model.Type == BugTracker.Domain.Entities.IssueType.Bug)
+                    {
+                        <div id="radioBtn" class="col-md-10">
+                            <a class="btn btn-danger active" data-toggle="Type" data-title="Bug" style="width:24.5%">Bug</a>
+                            <a class="btn btn-success notActive disabled" data-toggle="Type" data-title="Feature" style="width:24.5%">Feature</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div id="radioBtn" class="col-md-10">
+                            <a class="btn btn-danger notActive disabled" data-toggle="Type" data-title="Bug" style="width:24.5%">Bug</a>
+                            <a class="btn btn-success active" data-toggle="Type" data-title="Feature" style="width:24.5%">Feature</a>
+                        </div>
+                    }
                     <input type="hidden" name="Type" id="Type" />
                     @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
                 </div>
@@ -46,8 +64,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        <textarea class="form-control" rows="4" id="Description" name="Description" style="max-width:100%"></textarea>
-                        @*@Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", rows = "4" } })*@
+                        <textarea class="form-control" rows="4" id="Description" name="Description" style="max-width:100%">@Model.Description</textarea>
                         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -60,14 +77,29 @@
                         <button type="button" class="btn btn-warning" data-toggle="Priority" data-title="High" style="width:24.5%">High</button>
                         <button type="button" class="btn btn-danger" data-toggle="Priority" data-title="Critical" style="width:24.5%">Critical</button>
                     </div>
-                    <input type="hidden" name="Priority" id="Priority" />
+                    @if (Model.Priority == BugTracker.Domain.Entities.IssuePriority.Critical)
+                    {
+                        <input type="hidden" name="Priority" id="Priority" value="Critical" />
+                    }
+                    else if (Model.Priority == BugTracker.Domain.Entities.IssuePriority.High)
+                    {
+                        <input type="hidden" name="Priority" id="Priority" value="High" />
+                    }
+                    else if (Model.Priority == BugTracker.Domain.Entities.IssuePriority.Low)
+                    {
+                        <input type="hidden" name="Priority" id="Priority" value="Low" />
+                    }
+                    else
+                    {
+                        <input type="hidden" name="Priority" id="Priority" value="Medium" />
+                    }
                     @Html.ValidationMessageFor(model => model.Priority, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EnumDropDownListFor(model => model.Status, htmlAttributes: new { @class = "form-control", style="max-width:100%" })
+                        @Html.EnumDropDownListFor(model => model.Status, htmlAttributes: new { @class = "form-control", style = "max-width:100%" })
                         @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -75,7 +107,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.ProjectId, "Project", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownList("ProjectSelectId", null, htmlAttributes: new { @class = "form-control", style = "max-width:100%", disabled="" })
+                        @Html.DropDownList("ProjectSelectId", null, htmlAttributes: new { @class = "form-control", style = "max-width:100%", disabled = "" })
                         @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -83,7 +115,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.MilestoneId, "Milestone", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownList("ProjectSelectId", null, "Version 1.0", htmlAttributes: new { @class = "form-control", style = "max-width:100%" })
+                        @Html.DropDownList("MilestoneSelectId", null, htmlAttributes: new { @class = "form-control", style = "max-width:100%" })
                         @Html.ValidationMessageFor(model => model.MilestoneId, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -91,19 +123,21 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.ResponsibleId, "Responsible", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @*@Html.DropDownList("ResponsibleId", null, htmlAttributes: new { @class = "form-control" })*@
-                        @Html.DropDownList("ProjectSelectId", null, "Ioana Fotea", htmlAttributes: new { @class = "form-control", style = "max-width:100%" })
-                        @Html.ValidationMessageFor(model => model.ResponsibleId, "", new { @class = "text-danger" })
+                        @if (Model.Responsible != null)
+                        {
+                            @Html.DropDownList("ResponsibleId", null, htmlAttributes: new { @class = "form-control", style = "max-width:100%", disabled = "" })
+                        }
+                        else
+                        {
+                            @Html.DropDownList("ResponsibleId", null, "Select responsible", htmlAttributes: new { @class = "form-control", style = "max-width:100%" })
+                        }
                     </div>
                 </div>
 
                 <div class="form-group">
                     @Html.Label("Tags", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        <div class="input-group">
-                            @Html.TextBox("Tags", null, htmlAttributes: new { @class = "form-control", style = "max-width:100%" })
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
-                        </div>
+                        @Html.TextBox("EditTags", null, htmlAttributes: new { @class = "form-control", style = "max-width:100%", id = "magicSuggest" })
                     </div>
                 </div>
 

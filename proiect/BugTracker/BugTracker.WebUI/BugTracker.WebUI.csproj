@@ -181,6 +181,8 @@
     </Compile>
     <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\EditIssueViewModel.cs" />
+    <Compile Include="Models\IssueViewModel.cs" />
     <Compile Include="Models\MilestoneIndexViewModel.cs" />
     <Compile Include="Models\MilestoneViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
@@ -198,7 +200,6 @@
     <Content Include="Content\FloatLabel.css" />
     <Content Include="Content\fonts\icomoon.svg" />
     <Content Include="Content\icons.css" />
-    <Content Include="Content\LabelColors.css" />
     <Content Include="Content\RadioButtonToggle.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -223,13 +224,24 @@
     <Content Include="Scripts\misc\AddAndRemoveFormFields.js" />
     <Content Include="Scripts\misc\bootstrap-datepicker.js" />
     <Content Include="Scripts\misc\Button-checkbox.js" />
+    <Content Include="Scripts\misc\Button-radio-edit.js" />
     <Content Include="Scripts\misc\Button-radio.js" />
+    <Content Include="Scripts\misc\CollapseAllPanels.js" />
     <Content Include="Scripts\misc\CollapsiblePanel.js" />
     <Content Include="Scripts\misc\Employee_autocomplete.js" />
     <Content Include="Scripts\misc\FloatLabel.js" />
+    <Content Include="Scripts\misc\issue_add.js" />
+    <Content Include="Scripts\misc\issue_edit.js" />
     <Content Include="Scripts\misc\jquery.autocomplete.js" />
+    <Content Include="Scripts\misc\MagicSuggest\magicsuggest-min.css" />
+    <Content Include="Scripts\misc\MagicSuggest\magicsuggest-min.js" />
+    <Content Include="Scripts\misc\MagicSuggest\magicsuggest.css" />
+    <Content Include="Scripts\misc\MagicSuggest\magicsuggest.js" />
     <Content Include="Scripts\misc\Milestone_datepicker.js" />
+    <Content Include="Scripts\misc\ModalAssignIssue.js" />
+    <Content Include="Scripts\misc\ModalDeleteIssue.js" />
     <Content Include="Scripts\misc\ModalDeleteUser.js" />
+    <Content Include="Scripts\misc\ModalUnassignIssue.js" />
     <Content Include="Scripts\misc\RadioButtonToggle.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
@@ -275,6 +287,9 @@
     <Content Include="Views\Comment\Index.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Scripts\misc\MagicSuggest\bower.json" />
+    <Content Include="Scripts\misc\MagicSuggest\composer.json" />
+    <Content Include="Scripts\misc\MagicSuggest\magicsuggest.jquery.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

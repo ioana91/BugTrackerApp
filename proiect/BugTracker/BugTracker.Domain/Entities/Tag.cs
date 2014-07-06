@@ -21,7 +21,5 @@ namespace BugTracker.Domain.Entities
         public virtual Project Project { get; set; }
 
         public virtual ICollection<Issue> Issues { get; set; }
-
-        public string Color { get; set; }
     }
 }

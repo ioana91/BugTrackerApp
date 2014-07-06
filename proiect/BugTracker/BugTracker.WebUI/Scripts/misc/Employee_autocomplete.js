@@ -12,9 +12,6 @@
             $('.query').autocomplete({
                 lookup: employees
             });
-        },
-        error: function (x, y, z) {
-            alert(y)
         }
     });
 

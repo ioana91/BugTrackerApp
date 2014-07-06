@@ -15,6 +15,7 @@ namespace BugTracker.Domain.Entities
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int CommentId { get; set; }
         public string Text { get; set; }
+        public DateTime Date { get; set; }
         public string AuthorId { get; set; }
         public int IssueId { get; set; }
 

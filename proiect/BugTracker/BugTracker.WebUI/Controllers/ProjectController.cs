@@ -89,7 +89,7 @@ namespace BugTracker.WebUI.Controllers
                 unitOfWork.ProjectRepository.Insert(project);
                 await unitOfWork.SaveAsync();
 
-                return RedirectToAction("Index", "Issue");
+                return RedirectToAction("Index", "Project");
             }
 
             return View(project);

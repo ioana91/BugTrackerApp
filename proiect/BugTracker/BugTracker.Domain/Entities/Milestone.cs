@@ -16,7 +16,6 @@ namespace BugTracker.Domain.Entities
         public int MilestoneId { get; set; }
         public string Name { get; set; }
         [DataType(DataType.Date)]
-        //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DueDate { get; set; }
         public int ProjectId { get; set; }
 
