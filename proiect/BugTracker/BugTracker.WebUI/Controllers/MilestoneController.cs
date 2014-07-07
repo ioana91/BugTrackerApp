@@ -145,5 +145,42 @@ namespace BugTracker.WebUI.Controllers
 
             return RedirectToAction("Index", "Milestone");
         }
+
+        //
+        // GET: Milestone/Edit/5
+        public async Task<ActionResult> Edit(int id)
+        {
+            var milestone = await unitOfWork.MilestoneRepository.GetByIdAsync(id);
+            var milestoneDetails = new MilestoneViewModel()
+            {
+                Id = milestone.MilestoneId,
+                Name = milestone.Name,
+                Project = milestone.Project.Name,
+                Date = milestone.DueDate.Day,
+                Month = milestone.DueDate.Month,
+                Year = milestone.DueDate.Year
+            };
+
+            var projects = new List<Project>() { milestone.Project };
+            ViewBag.ProjectSelectId = new SelectList(projects, "ProjectId", "Name", milestone.ProjectId);
+
+            return View(milestoneDetails);
+        }
+
+        //
+        // POST: Milestone/Edit/5
+        [HttpPost]
+        public async Task<ActionResult> Edit(MilestoneViewModel model)
+        {
+            var milestone = await unitOfWork.MilestoneRepository.GetByIdAsync(model.Id);
+
+            milestone.Name = model.Name;
+            milestone.DueDate = new DateTime(model.Year, model.Month + 1, model.Date);
+
+            unitOfWork.MilestoneRepository.Update(milestone);
+            await unitOfWork.SaveAsync();
+
+            return RedirectToAction("Index", "Milestone");
+        }
     }
 }

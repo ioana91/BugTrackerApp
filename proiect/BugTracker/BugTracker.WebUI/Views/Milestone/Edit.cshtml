@@ -1,0 +1,95 @@
+﻿@model BugTracker.WebUI.Models.MilestoneViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+@section AddToHead{
+    <link href="~/Content/Colorgraph.css" rel="stylesheet" />
+    <link href="~/Content/datepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/misc/bootstrap-datepicker.js"></script>
+    <script>
+        var date = @Html.Raw(Model.Date);
+        var month = @Html.Raw(Model.Month - 1);
+        var year = @Html.Raw(Model.Year);
+    </script>
+    <script src="~/Scripts/misc/MilestoneEdit_datepicker.js"></script>
+}
+
+<div class="row" style="margin-top:20px">
+    <div class="col-xs-12 col-sm-8 col-md-6">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <h2>Edit milestone</h2>
+            <hr class="colorgraph" />
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Id)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Due date", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <input class="span2 form-control" id="dp1" type="text">
+                        <input type="hidden" name="Date" id="Date" />
+                        <input type="hidden" name="Month" id="Month" />
+                        <input type="hidden" name="Year" id="Year" />
+                        @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Project, "Project", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("ProjectSelectId", null, htmlAttributes: new { @class = "form-control", disabled = "" })
+                        @Html.ValidationMessageFor(model => model.Project, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Month, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Month, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Month, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                <hr class="colorgraph" />
+
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        @Html.ActionLink("Cancel", "Index", "Milestone", null, new { @class = "btn btn-default btn-block btn-lg" })
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <input type="submit" value="Save" class="btn btn-primary btn-block btn-lg" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

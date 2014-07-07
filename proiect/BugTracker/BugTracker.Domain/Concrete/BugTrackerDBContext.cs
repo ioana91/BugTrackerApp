@@ -75,6 +75,5 @@ namespace BugTracker.Domain.Concrete
                         m.ToTable("ProjectUsers");
                     });
         }
-
     }
 }

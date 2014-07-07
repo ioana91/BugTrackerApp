@@ -204,6 +204,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\bootstrap-popover.js" />
+    <Content Include="Scripts\bootstrap-tooltip.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\fonts\icomoon.eot" />
@@ -236,6 +238,7 @@
     <Content Include="Scripts\misc\MagicSuggest\magicsuggest-min.js" />
     <Content Include="Scripts\misc\MagicSuggest\magicsuggest.css" />
     <Content Include="Scripts\misc\MagicSuggest\magicsuggest.js" />
+    <Content Include="Scripts\misc\MilestoneEdit_datepicker.js" />
     <Content Include="Scripts\misc\Milestone_datepicker.js" />
     <Content Include="Scripts\misc\ModalAssignIssue.js" />
     <Content Include="Scripts\misc\ModalDeleteIssue.js" />
@@ -279,6 +282,7 @@
     <Content Include="Scripts\misc\MagicSuggest\bower.json" />
     <Content Include="Scripts\misc\MagicSuggest\composer.json" />
     <Content Include="Scripts\misc\MagicSuggest\magicsuggest.jquery.json" />
+    <Content Include="Views\Milestone\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -7,6 +7,8 @@
 @section AddToHead{
     <link href="~/Content/Colorgraph.css" rel="stylesheet" />
     <script src="~/Scripts/misc/ModalDeleteMilestone.js"></script>
+    <script src="~/Scripts/bootstrap-popover.js"></script>
+    <script src="~/Scripts/bootstrap-tooltip.js"></script>
 }
 
 <h2>Milestones</h2>
@@ -14,10 +16,12 @@
 @for (int i = 0; i < Model.Projects.Count(); i++)
 {
     <h4>@Model.Projects[i].Name</h4>
+    int count = 0;
     foreach (var milestone in Model.MilestoneDetails)
     {
         if (milestone.ProjectId == @Model.Projects[i].ProjectId)
         {
+            count++;
             <div class="container">
                 <div class="row">
                     <div class="col-md-3">
@@ -26,10 +30,22 @@
                     </div>
                     <div class="col-md-8">
                         <div class="progress">
-                            <div class="progress-bar progress-bar-success" style="width: @milestone.ClosedIssues%"></div>
-                            <div class="progress-bar progress-bar-info" style="width: @milestone.InTestingIssues%"></div>
-                            <div class="progress-bar progress-bar-warning" style="width : @milestone.InProgressIssues%"></div>
-                            <div class="progress-bar progress-bar-danger" style="width: @milestone.ClosedIssues%"></div>
+                            <div class="progress-bar progress-bar-success mypopover" style="width: @milestone.ClosedIssues%"
+                                 data-content="@milestone.ClosedIssues% of the issues are closed." data-placement="left"
+                                 data-toggle="popover" data-original-title="Closed issues">
+                            </div>
+                            <div class="progress-bar progress-bar-info mypopover" style="width: @milestone.InTestingIssues%"
+                                 data-content="@milestone.InTestingIssues% of the issues are in testing." data-placement="bottom"
+                                 data-toggle="popover" data-original-title="Issues in testing">
+                            </div>
+                            <div class="progress-bar progress-bar-warning mypopover" style="width : @milestone.InProgressIssues%" 
+                                 data-content="@milestone.InProgressIssues% of the issues are in progress." data-placement="top" 
+                                 data-toggle="popover" data-original-title="Issues in progress">
+                            </div>
+                            <div class="progress-bar progress-bar-danger mypopover" style="width: @milestone.UnsolvableIssues%"
+                                 data-content="@milestone.InProgressIssues% of the issues are unsolvable." data-placement="right"
+                                 data-toggle="popover" data-original-title="Unsolvable issues">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -38,24 +54,27 @@
             if (User.IsInRole("Manager"))
             {
                 <span class="pull-right">
-                    <button class="btn btn-sm btn-warning" type="button" data-toggle="tooltip"
-                            data-original-title="Edit this issue" data-placement="top">
+                    <a class="btn btn-sm btn-warning" title="Edit milestone" href="Milestone/Edit/@milestone.MilestoneId">
                         <i class="glyphicon glyphicon-edit"></i>
-                    </button>
+                    </a>
 
-                    <button class="btn btn-sm btn-danger open-deleteMilestoneDialog" type="button" data-toggle="modal" href="#deleteMilestoneDialog"
-                            data-id="@milestone.MilestoneId" data-name="@milestone.Name">
+                    <a class="btn btn-sm btn-danger open-deleteMilestoneDialog" data-toggle="modal" href="#deleteMilestoneDialog"
+                       data-id="@milestone.MilestoneId" data-name="@milestone.Name" title="Delete milestone">
                         <i class="glyphicon glyphicon-remove"></i>
-                    </button>
+                    </a>
                 </span>
                 <br />
             }
 
-            if (i != Model.Projects.Count - 1)
+            if (count < Model.Projects[i].Milestones.Count())
             {
                 <hr />
             }
         }
+    }
+    if (i != Model.Projects.Count - 1)
+    {
+        <hr style="border-top:2px solid #C9C9C9" />
     }
 }
 <hr class="colorgraph">
@@ -77,3 +96,9 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(function () {
+        $('.mypopover').popover();
+    });
+</script>
