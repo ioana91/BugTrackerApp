@@ -132,6 +132,10 @@ namespace BugTracker.WebUI.Controllers
             issue.Priority = priority;
             issue.Status = status;
 
+            var milestone = unitOfWork.MilestoneRepository.Get(filter: m => m.MilestoneId == model.MilestoneSelectId)
+                .FirstOrDefault();
+            issue.Milestone = milestone;
+
             if (model.ResponsibleId != null)
             {
                 issue.ResponsibleId = model.ResponsibleId;

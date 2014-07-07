@@ -180,6 +180,7 @@
     </Compile>
     <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\EditIssueViewModel.cs" />
     <Compile Include="Models\IssueViewModel.cs" />
     <Compile Include="Models\MilestoneIndexViewModel.cs" />
@@ -195,6 +196,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\CollapsiblePanel.css" />
     <Content Include="Content\Colorgraph.css" />
+    <Content Include="Content\CommentTimeline.css" />
     <Content Include="Content\datepicker.css" />
     <Content Include="Content\FloatLabel.css" />
     <Content Include="Content\fonts\icomoon.svg" />

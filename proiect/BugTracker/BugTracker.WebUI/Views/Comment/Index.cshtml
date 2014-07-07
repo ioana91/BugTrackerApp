@@ -1,14 +1,77 @@
-﻿
+﻿@model BugTracker.WebUI.Models.CommentViewModel
+
 @{
     ViewBag.Title = "Index";
 }
 
 @section AddToHead{
     <link href="~/Content/Colorgraph.css" rel="stylesheet" />
+    <link href="~/Content/CommentTimeline.css" rel="stylesheet" />
+    <style>
+        #userPhoto {
+            font-size: 35px;
+        }
+    </style>
+
 }
 
 <h2>Comments</h2>
+<p>Comments for issue <strong>@Model.IssueTitle</strong>.</p>
 
 <hr class="colorgraph" />
+<div class="container">
+    @using (Html.BeginForm("Add", "Comment", FormMethod.Post, new { role = "form" }))
+    {
+        @Html.HiddenFor(model => model.IssueId)
+        foreach (var comment in Model.Comments.OrderByDescending(c => c.Date))
+        {
+            <div class="qa-message-list" id="wallmessages">
+                <div class="message-item" id="m16">
+                    <div class="message-inner" style="width:1060px">
+                        <div class="message-head clearfix">
+                            <div class="avatar pull-left"><i class="icon-user" id="userPhoto"></i></div>
+                            <div class="user-detail">
+                                <h5 class="handle">@comment.Author.DisplayName</h5>
+                                <div class="post-meta">
+                                    <div class="asker-meta">
+                                        <span class="qa-message-what"></span>
+                                        <span class="qa-message-when">
+                                            <span class="qa-message-when-data">@comment.Date</span>
+                                        </span>
+                                        <span class="qa-message-who">
+                                            <span class="qa-message-who-pad">by </span>
+                                            <span class="qa-message-who-data"><a href="#">@comment.Author.DisplayName</a></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="qa-message-content">
+                            @comment.Text
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="qa-message-list" id="wallmessages">
+            <div class="message-item" id="m16">
+                <div class="message-inner" style="width:1060px">
+                    <div class="message-head clearfix">
+                        <div class="user-detail">
+                            <h5 class="handle">Add new comment</h5>
+                        </div>
+                    </div>
+                    <div class="qa-message-content">
+                        <div class="form-group">
+                            <textarea class="form-control" rows="4" id="NewComment" name="NewComment" style="max-width:100%"></textarea>
+                        </div>
+                        <input type="submit" value="Add" class="btn btn-success btn-sm" style="padding-left:2em; padding-right:2em; margin-left:92.5%" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
 
 <hr class="colorgraph" />
