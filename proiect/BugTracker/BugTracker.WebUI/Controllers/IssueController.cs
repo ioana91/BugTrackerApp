@@ -27,7 +27,15 @@ namespace BugTracker.WebUI.Controllers
         // GET: Issue/Index
         public ActionResult Index()
         {
-            var issues = unitOfWork.IssueRepository.Get(includeProperties: "Tags");
+            var user = unitOfWork.UserRepository.Get(filter: u => u.UserName == User.Identity.Name, includeProperties: "Projects")
+                .FirstOrDefault();
+
+            var issues = new List<Issue>();
+            foreach (var project in user.Projects)
+            {
+                issues.AddRange(project.Issues);
+            }
+
             return View(issues);
         }
 

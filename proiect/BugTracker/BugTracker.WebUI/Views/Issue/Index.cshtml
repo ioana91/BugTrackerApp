@@ -25,6 +25,10 @@
                 <h3 class="panel-title pull-left" style="padding-left:10px">@issue.Title</h3>
                 <span class="pull-right clickable panel-collapsed"><i class="glyphicon glyphicon-chevron-down text-muted"></i></span>
                 <em class="pull-right" style="padding-right:10px">@issue.Milestone.DueDate.ToString("dd-MMMM-yyyy")</em>
+                @if (issue.Responsible != null)
+                {
+                    <span class="label label-default pull-right" style="margin-right:10px" id="responsibleLabel">@issue.Responsible.DisplayName</span>
+                }
             </div>
             <div class="panel-body">
                 <hr class="colorgraph" />

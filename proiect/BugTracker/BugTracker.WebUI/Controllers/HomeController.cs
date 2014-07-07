@@ -20,9 +20,7 @@ namespace BugTracker.WebUI.Controllers
 
         public ActionResult Index()
         {
-            unitOfWork.MilestoneRepository.Insert(new Milestone() { MilestoneId = 2, DueDate = DateTime.Now, Name = "The second One" });
-            unitOfWork.SaveAsync();
-            return View();
+            return RedirectToAction("Index", "Issue");
         }
 
         public ActionResult About()

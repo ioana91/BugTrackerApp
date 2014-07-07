@@ -1,27 +1,48 @@
 ﻿@using BugTracker.WebUI.Models;
-@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity
+@model BugTracker.WebUI.Models.ManageUserViewModel
 @{
     ViewBag.Title = "Manage Account";
 }
 
-<h2>@ViewBag.Title.</h2>
+@section AddToHead{
+    <link href="~/Content/Colorgraph.css" rel="stylesheet" />
+}
 
-<p class="text-success">@ViewBag.StatusMessage</p>
-<div class="row">
-    <div class="col-md-12">
-        @if (ViewBag.HasLocalPassword)
-        {
-            @Html.Partial("_ChangePasswordPartial")
-        }
-        else
-        {
-            @Html.Partial("_SetPasswordPartial")
-        }
+<div class="row" style="margin-top:20px">
+    <div class="col-xs-12 col-sm-8 col-md-6">
+        <h2>Manage account</h2>
+        <p>You're logged in as <strong>@User.Identity.GetUserName()</strong></p>
 
-        <section id="externalLogins">
-            @Html.Action("RemoveAccountList")
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { Action = "LinkLogin", ReturnUrl = ViewBag.ReturnUrl })
-        </section>
+        <hr class="colorgraph" />
+
+        <p class="text-success">@ViewBag.StatusMessage</p>
+
+        @using (Html.BeginForm("Manage", "Account", FormMethod.Post, new { role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.PasswordFor(m => m.OldPassword, new { @class = "form-control", style = "max-width:100%", placeholder = "Old Password" })
+            </div>
+            <div class="form-group">
+                @Html.PasswordFor(m => m.NewPassword, new { @class = "form-control", style = "max-width:100%", placeholder = "New Password" })
+            </div>
+            <div class="form-group">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", style = "max-width:100%", placeholder = "Confirm New Password" })
+            </div>
+
+            <hr class="colorgraph" />
+
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    @Html.ActionLink("Cancel", "Index", "Issue", null, new { @class = "btn btn-default btn-block btn-lg" })
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <input type="submit" value="Change Password" class="btn btn-primary btn-block btn-lg" />
+                </div>
+            </div>
+        }
     </div>
 </div>
 @section Scripts {

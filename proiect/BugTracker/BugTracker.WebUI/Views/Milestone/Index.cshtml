@@ -6,6 +6,7 @@
 
 @section AddToHead{
     <link href="~/Content/Colorgraph.css" rel="stylesheet" />
+    <script src="~/Scripts/misc/ModalDeleteMilestone.js"></script>
 }
 
 <h2>Milestones</h2>
@@ -42,8 +43,8 @@
                         <i class="glyphicon glyphicon-edit"></i>
                     </button>
 
-                    <button class="btn btn-sm btn-danger" type="button" data-toggle="tooltip"
-                            data-original-title="Edit this issue" data-placement="top">
+                    <button class="btn btn-sm btn-danger open-deleteMilestoneDialog" type="button" data-toggle="modal" href="#deleteMilestoneDialog"
+                            data-id="@milestone.MilestoneId" data-name="@milestone.Name">
                         <i class="glyphicon glyphicon-remove"></i>
                     </button>
                 </span>
@@ -58,3 +59,21 @@
     }
 }
 <hr class="colorgraph">
+
+<div class="modal fade" id="deleteMilestoneDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Delete milestone</h4>
+            </div>
+            <div class="modal-body">
+                <p id="questionDelete"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" id="userId">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
