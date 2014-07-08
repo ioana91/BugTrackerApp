@@ -8,6 +8,7 @@ using BugTracker.Domain.Entities;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using BugTracker.WebUI.Models;
 
 namespace BugTracker.WebUI.Controllers
 {
@@ -42,7 +43,7 @@ namespace BugTracker.WebUI.Controllers
         {
             foreach (var projectDetails in projectsArray)
             {
-                var project = unitOfWork.ProjectRepository.Get(filter: p => p.Name == projectDetails.ProjectName, 
+                var project = unitOfWork.ProjectRepository.Get(filter: p => p.Name == projectDetails.ProjectName,
                     includeProperties: "Users").FirstOrDefault();
                 project.Users.Clear();
 
@@ -53,7 +54,7 @@ namespace BugTracker.WebUI.Controllers
                         var parts = employee.Split(new char[] { ' ' });
                         var firstName = parts[0];
                         var lastName = parts[1];
-                        var user = unitOfWork.UserRepository.Get(filter: u => u.FirstName == firstName && 
+                        var user = unitOfWork.UserRepository.Get(filter: u => u.FirstName == firstName &&
                             u.LastName == lastName).FirstOrDefault();
                         project.Users.Add(user);
                     }
@@ -104,6 +105,82 @@ namespace BugTracker.WebUI.Controllers
                 .ToArray();
 
             return Json(employees, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<JsonResult> GetResponsibleDetails(int projectId)
+        {
+            var project = await unitOfWork.ProjectRepository.GetByIdAsync(projectId);
+
+            string[][] userDetailsList = new string[project.Users.Count + 1][];
+            for (int i = 0; i < project.Users.Count + 1; i++)
+            {
+                userDetailsList[i] = new string[2];
+            }
+
+            var assignedIssues = 0;
+            for (int i = 0; i < project.Users.Count; i++)
+            {
+                var responsible = project.Users.ElementAt(i);
+                if (responsible != null)
+                {
+                    userDetailsList[i][0] = responsible.DisplayName;
+                    userDetailsList[i][1] = responsible.Issues.Count.ToString();
+                    assignedIssues += responsible.Issues.Count;
+                }
+            }
+
+            userDetailsList[project.Users.Count][0] = "Unassigned";
+            userDetailsList[project.Users.Count][1] = (project.Issues.Count - assignedIssues).ToString();
+
+            return Json(userDetailsList, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> Reports(int id)
+        {
+            var project = await unitOfWork.ProjectRepository.GetByIdAsync(id);
+            var reportDetails = new ReportViewModel();
+
+            //set project name
+            reportDetails.ProjectName = project.Name;
+            reportDetails.ProjectId = id;
+
+            //data for status chart
+            reportDetails.OpenName = "Open";
+            reportDetails.OpenIssues = project.Issues.Count(i => i.Status == IssueStatus.Open);
+
+            reportDetails.ClosedName = "Closed";
+            reportDetails.ClosedIssues = project.Issues.Count(i => i.Status == IssueStatus.Closed);
+
+            reportDetails.InProgressName = "In progress";
+            reportDetails.InProgressIssues = project.Issues.Count(i => i.Status == IssueStatus.InProgress);
+
+            reportDetails.InTestingName = "In testing";
+            reportDetails.InTestingIssues = project.Issues.Count(i => i.Status == IssueStatus.InTesting);
+
+            reportDetails.UnsolvableName = "Unsolvable";
+            reportDetails.UnsolvableIssues = project.Issues.Count(i => i.Status == IssueStatus.Unsolvable);
+
+            //data for priority chart
+            reportDetails.Low = "Low";
+            reportDetails.LowIssues = project.Issues.Count(i => i.Priority == IssuePriority.Low);
+
+            reportDetails.Medium = "Medium";
+            reportDetails.MediumIssues = project.Issues.Count(i => i.Priority == IssuePriority.Medium);
+
+            reportDetails.Critical = "Critical";
+            reportDetails.CriticalIssues = project.Issues.Count(i => i.Priority == IssuePriority.Critical);
+
+            reportDetails.High = "High";
+            reportDetails.HighIssues = project.Issues.Count(i => i.Priority == IssuePriority.High);
+
+            //data for type chart
+            reportDetails.Bug = "Bug";
+            reportDetails.BugIssues = project.Issues.Count(i => i.Type == IssueType.Bug);
+
+            reportDetails.Feature = "Feature";
+            reportDetails.FeatureIssues = project.Issues.Count(i => i.Type == IssueType.Feature);
+
+            return View(reportDetails);
         }
     }
 }

@@ -185,6 +185,7 @@
     <Compile Include="Models\IssueViewModel.cs" />
     <Compile Include="Models\MilestoneIndexViewModel.cs" />
     <Compile Include="Models\MilestoneViewModel.cs" />
+    <Compile Include="Models\ReportViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -194,6 +195,7 @@
     <Content Include="Content\autocomplete.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\c3.css" />
     <Content Include="Content\CollapsiblePanel.css" />
     <Content Include="Content\Colorgraph.css" />
     <Content Include="Content\CommentTimeline.css" />
@@ -210,13 +212,15 @@
     <Content Include="Scripts\bootstrap-tooltip.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Content\fonts\icomoon.eot" />
-    <Content Include="Content\fonts\icomoon.ttf" />
-    <Content Include="Content\fonts\icomoon.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\icomoon.eot" />
+    <Content Include="Content\fonts\icomoon.ttf" />
+    <Content Include="Content\fonts\icomoon.woff" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\c3.min.js" />
+    <Content Include="Scripts\d3.v3.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -233,6 +237,7 @@
     <Content Include="Scripts\misc\CollapsiblePanel.js" />
     <Content Include="Scripts\misc\Employee_autocomplete.js" />
     <Content Include="Scripts\misc\FloatLabel.js" />
+    <Content Include="Scripts\misc\ProjectReport.js" />
     <Content Include="Scripts\misc\issue_add.js" />
     <Content Include="Scripts\misc\issue_edit.js" />
     <Content Include="Scripts\misc\jquery.autocomplete.js" />
@@ -285,6 +290,7 @@
     <Content Include="Scripts\misc\MagicSuggest\composer.json" />
     <Content Include="Scripts\misc\MagicSuggest\magicsuggest.jquery.json" />
     <Content Include="Views\Milestone\Edit.cshtml" />
+    <Content Include="Views\Project\Reports.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

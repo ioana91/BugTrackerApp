@@ -43,8 +43,13 @@
                                  data-toggle="popover" data-original-title="Issues in progress">
                             </div>
                             <div class="progress-bar progress-bar-danger mypopover" style="width: @milestone.UnsolvableIssues%"
-                                 data-content="@milestone.InProgressIssues% of the issues are unsolvable." data-placement="right"
+                                 data-content="@milestone.UnsolvableIssues% of the issues are unsolvable." data-placement="bottom"
                                  data-toggle="popover" data-original-title="Unsolvable issues">
+                            </div>
+                            <div class="progress-bar progress-bar-danger mypopover"
+                                 style="width: @milestone.OpenIssues%; background-color:#D7D7D7"
+                                 data-content="@milestone.OpenIssues% of the issues are open." data-placement="top"
+                                 data-toggle="popover" data-original-title="Open issues">
                             </div>
                         </div>
                     </div>

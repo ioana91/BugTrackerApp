@@ -1,0 +1,83 @@
+﻿@model BugTracker.WebUI.Models.ReportViewModel
+
+@{
+    ViewBag.Title = "Reports";
+}
+
+@section AddToHead{
+    <link href="~/Content/Colorgraph.css" rel="stylesheet" />
+    <link href="~/Content/c3.css" rel="stylesheet" />
+    <script>
+        var openName = '@Html.Raw(Model.OpenName)';
+        var openIssues = '@Html.Raw(Model.OpenIssues)';
+        var closedName = '@Html.Raw(Model.ClosedName)';
+        var closedIssues = @Html.Raw(Model.ClosedIssues);
+        var inProgressName = '@Html.Raw(Model.InProgressName)';
+        var inProgressIssues = @Html.Raw(Model.InProgressIssues);
+        var inTestingName = '@Html.Raw(Model.InTestingName)';
+        var inTestingIssues = @Html.Raw(Model.InTestingIssues);
+        var unsolvableName = '@Html.Raw(Model.UnsolvableName)';
+        var unsolvableIssues = @Html.Raw(Model.UnsolvableIssues);
+
+        var low = "@Html.Raw(Model.Low)";
+        var lowIssues = @Html.Raw(Model.LowIssues);
+        var medium = '@Html.Raw(Model.Medium)';
+        var mediumIssues = @Html.Raw(Model.MediumIssues);
+        var critical = '@Html.Raw(Model.Critical)';
+        var criticalIssues = @Html.Raw(Model.CriticalIssues);
+        var high = '@Html.Raw(Model.High)';
+        var highIssues = @Html.Raw(Model.HighIssues);
+
+        var bug = '@Html.Raw(Model.Bug)';
+        var bugIssues = @Html.Raw(Model.BugIssues);
+        var feature = '@Html.Raw(Model.Feature)';
+        var featureIssues = @Html.Raw(Model.FeatureIssues);
+
+        var projectId = @Html.Raw(Model.ProjectId);
+    </script>
+    <script src="~/Scripts/d3.v3.min.js"></script>
+    <script src="~/Scripts/c3.min.js"></script>
+    <script src="~/Scripts/misc/ProjectReport.js"></script>
+}
+
+<div class="row" style="margin-top:20px">
+    <h2>Reports</h2>
+    <h5>@Model.ProjectName</h5>
+
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">Issues by status</div>
+            <div class="panel-body" style="height:auto">
+                <div id="status"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">Issues by priority</div>
+            <div class="panel-body" style="height:auto">
+                <div id="priority"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">Issues by type</div>
+            <div class="panel-body" style="height:auto">
+                <div id="type"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">Issues by responsible</div>
+            <div class="panel-body" style="height:auto">
+                <div id="responsible"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
